@@ -5,14 +5,16 @@
 
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className, placeToLook, foundElements){
-	
-	var searchString = className;	
+		
 	foundElements = foundElements || []; 
 	placeToLook = placeToLook || document.body;
-	classes = [];
 	
-	if (placeToLook.classList.contains(className)){
-		foundElements = Array.prototype.concat.apply(foundElements, placeToLook);
+	if (placeToLook.classList){
+		_.each(placeToLook.classList, function(el){
+			if(el===className){
+				foundElements.push(placeToLook);
+			}
+		});
 	}
 	if (placeToLook.children.length > 0){
 		_.each(placeToLook.children, function(el){
