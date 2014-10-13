@@ -4,22 +4,22 @@
 // };
 
 // But instead we're going to implement it from scratch:
-var getElementsByClassName = function(className){
+var getElementsByClassName = function(className, placeToLook, foundElements){
 	
 	var searchString = className;	
-	var $placeToLook;
-	var foundElements = [];
+	foundElements = foundElements || []; 
+	placeToLook = placeToLook || document.body;
+	classes = [];
 	
-	if ($placeToLook === undefined){$placeToLook = $(document);}
-	if ($placeToLook.hasClass(className)){foundElements.push($placeToLook);}
-	if ($placeToLook.children() > 0){
-		_.each($placeToLook.children, function(el){
-			$placeToLook = el;
-			getElementsByClassName(searchString);
+	if (placeToLook.classList.contains(className)){
+		foundElements = Array.prototype.concat.apply(foundElements, placeToLook);
+	}
+	if (placeToLook.children.length > 0){
+		_.each(placeToLook.children, function(el){
+			placeToLook = el;
+			getElementsByClassName(className, placeToLook, foundElements);
 		});
-	} else if ($placeToLook.next() !== undefined){
-		$placeToLook = $placeToLook.next();
-		getElementsByClassName(searchString);
+	
 	}
 	return foundElements;
 };
