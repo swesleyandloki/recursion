@@ -5,5 +5,23 @@
 
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className){
-  // your code here
+  //establish place to look
+  var $placeToLook;
+  var foundElements = [];
+  
+
+  if($placeToLook===undefined){
+  	$placeToLook = $(document);
+  } else {
+  	var $classSelect = $("."+className);
+  	foundElements.push($classSelect);
+  	if($placeToLook.children().length>0){
+  		_.each($placeToLook.children(), function(el){
+  			$placeToLook = el;
+  			getElementsByClassName(className);
+  		});
+  	}else{
+  		$placeToLook = $placeToLook.next();
+  	}
+  } return foundElements;	
 };
